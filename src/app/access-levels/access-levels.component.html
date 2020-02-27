@@ -1,0 +1,61 @@
+<div class="container">
+  <form role="form" [formGroup]="myForm">
+    <div class="row">
+      <div class="col">
+        <h1>
+          Access Level
+        </h1>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label>+</label>
+        <input class="ml-3" id="spotLight" placeholder="spotlight search" (blur)="filter()" type="text" formControlName="spotlight">
+        <button class="ml-3" type="button" (click)="reset()">Reset</button>
+        <table class="table table-condensed mt-4">
+          <thead class="thead-light">
+            <tr>
+              <th>Name</th>
+              <th>Reader Type</th>
+              <th>Reader(s)</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let access of accessData">
+            <tr class="pointer" (click)="getRow(access)">
+              <td>{{access.name}}</td>
+              <td>{{access.readers}}</td>
+              <td>{{access.readerType}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col ml-4">
+        <h5>Access Name</h5>
+   
+        <div class="form-group row  mt-4">
+          <label class="col-sm-4 col-form-label">Name</label>
+          <input class="col-sm-8 form-control" id="name" type="text" formControlName="name">
+        </div>
+   
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Description</label>
+          <textarea class="col-sm-8 form-control" id="description" rows="4" cols="50" formControlName="description"></textarea>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Readers(s)</label>
+          <select formControlName="reader">
+            <option selected disabled value="">All Rearder Groups</option>
+            <option *ngFor="let r of readers" [value]="r.id"> {{r.name}} </option>
+          </select>
+        </div>
+        <div class="">
+          <button class="btn btn-secondary" type="submit" (click)="save()">Save</button>
+
+          <button class="btn btn-light ml-3" type="button" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
