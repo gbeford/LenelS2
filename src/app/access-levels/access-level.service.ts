@@ -33,13 +33,11 @@ export class AccessLevelService {
   getReaders(): Observable<IReaders[]> {
     return this.http.get<IReaders[]>('./assets/json/readers.json')
       .pipe(
-        tap(r =>
-          //  console.log('reader results', r)),
           catchError((e: any) => {
             console.log('error', e);
             return throwError(e);
           })// ...errors if any
-        ));
+        );
   }
 
   getReaderType(): Observable<IReaderType[]> {
@@ -54,26 +52,23 @@ export class AccessLevelService {
 
   getAccessData() {
     this.getAccessLevel().subscribe(accessLevel => {
-      // console.log('access', accessLevel);
       this.accessLevel = accessLevel;
       this.getReaders().subscribe(reader => {
-        // console.log('readers', reader);
 
         this.accessLevel.forEach(element => {
           const item = reader.find(ev => ev.id === element.readerId);
           element.readers = item.name;
 
           this.getReaderType().subscribe(readerType => {
-            //  console.log( 'type', readerType);
             const typeItem = readerType.find(f => f.id === item.typeId);
             element.readerType = typeItem.name;
             this.accessData.next(this.accessLevel);
           });
         });
       });
-      console.log('final', this.accessLevel);
+      console.log('access data', this.accessLevel);
     });
   }
 
-  
+
 }
