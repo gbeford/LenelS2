@@ -16,6 +16,7 @@ export class AccessLevelsComponent implements OnInit {
   readers: IReaders[];
   orignalData: IAccessLevel;
   rowID: number;
+  showForm = false;
 
   constructor(private accessService: AccessLevelService, private formBuilder: FormBuilder) { }
 
@@ -56,6 +57,7 @@ export class AccessLevelsComponent implements OnInit {
     });
     this.myForm.controls.reader.patchValue(accessInfo.readerId);
     this.rowID = accessInfo.id;
+    this.showForm = true;
   }
 
   save() {
@@ -73,13 +75,19 @@ export class AccessLevelsComponent implements OnInit {
       description: this.orignalData.Description
     });
     this.myForm.controls.reader.patchValue(this.orignalData.readerId);
+    this.showForm = false;
   }
 
   filter() {
-    this.accessData = this.accessData.filter(
-      result => result.name === this.myForm.value.spotlight ||
-        result.readerType === this.myForm.value.spotlight ||
-        result.readers === this.myForm.value.spotlight);
+    if (this.myForm.value.spotlight === '') {
+      this.getAccessInfo();
+    } else {
+      this.accessData = this.accessData.filter(
+        result => result.name.toLowerCase().includes(this.myForm.value.spotlight.toLowerCase()) ||
+          result.readerType.toLowerCase().includes(this.myForm.value.spotlight.toLowerCase()) ||
+          result.readers.toLowerCase().includes(this.myForm.value.spotlight.toLowerCase())
+      );
+    }
   }
 
   reset() {

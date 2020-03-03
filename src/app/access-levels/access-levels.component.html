@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col">
         <label>+</label>
-        <input class="ml-3" id="spotLight" placeholder="spotlight search" (blur)="filter()" type="text" formControlName="spotlight">
+        <input class="ml-3" id="spotLight" placeholder="spotlight search" (keyup)="filter()" type="text" formControlName="spotlight">
         <button class="ml-3" type="button" (click)="reset()">Reset</button>
         <table class="table table-condensed mt-4">
           <thead class="thead-light">
@@ -30,7 +30,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col ml-4">
+      <div class="col ml-4" *ngIf="showForm">
         <h5>Access Name</h5>
    
         <div class="form-group row  mt-4">
